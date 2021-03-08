@@ -98,6 +98,18 @@ recipe.output.save_file_bin={build.project_name}.save.bin
 recipe.output.tmp_file_hex={build.project_name}.hex
 recipe.output.save_file_hex={build.project_name}.save.hex
 
+#***************************************************
+# adafruit-nrfutil for uploading
+# https://github.com/adafruit/Adafruit_nRF52_nrfutil
+# pre-built binaries are provided for macos and windows
+#***************************************************
+tools.nrfutil.cmd=adafruit-nrfutil
+tools.nrfutil.cmd.windows={runtime.platform.path}/tools/adafruit-nrfutil/adafruit-nrfutil.exe
+tools.nrfutil.cmd.macosx={runtime.platform.path}/tools/adafruit-nrfutil/adafruit-nrfutil
+
+## Create dfu package zip file
+recipe.objcopy.zip.pattern="{tools.nrfutil.cmd}" dfu genpkg --application-version 65535 --application "{build.path}/{build.project_name}.hex" "{build.path}/{build.project_name}.zip"
+
 ## Compute size
 recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
 recipe.size.regex=\.text\s+([0-9]+).*
